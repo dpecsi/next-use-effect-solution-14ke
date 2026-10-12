@@ -1,0 +1,45 @@
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+import prettier from "eslint-config-prettier/flat";
+import reactPlugin from "eslint-plugin-react";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  prettier,
+  {
+    plugins: {
+      react: reactPlugin,
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
+      "react/jsx-sort-props": [
+        1,
+        {
+          callbacksLast: true,
+          shorthandFirst: false,
+          shorthandLast: false,
+          multiline: "ignore",
+          ignoreCase: true,
+          noSortAlphabetically: false,
+          reservedFirst: false,
+          locale: "auto",
+        },
+      ],
+    },
+  },
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
